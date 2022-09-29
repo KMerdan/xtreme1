@@ -6,7 +6,7 @@
 
 点云工具3D场景采用右手坐标系，场景中点云数据的坐标系就是世界坐标系,点云的坐标系以Z轴向上(如下图)。
 
-<div align=center><img width="300"  src="./asset/coord.jpg"></div>
+<div align=center><img width="400"  src="./asset/coord.jpg"></div>
 
 > 3D标注结果的位置信息`position`就是相对点云坐标系的坐标值
 
@@ -14,7 +14,7 @@
 
 点云工具2/3映射中的图片源点在图片左上角，横向代表X轴，纵向代表Y轴，向右X值变大，向下Y值变大(如下图)。
 
-<div align=center><img width="300"  src="./asset/image.jpg"></div>
+<div align=center><img width="400"  src="./asset/image.jpg"></div>
 
 > 2D标注结果中坐标位置信息都是相对图片坐标系的值
 
@@ -27,8 +27,8 @@
 
 ### 通用数据集转换
 
-通用数据转换流程如下：点坐标 x 相机参数 x 相机内参 = 图片坐标
-<div align=center><img width="300"  src="./asset/project.jpg"></div>
+通用数据转换流程如下：点坐标 x 相机外参 x 相机内参 = 图片坐标
+<div align=center><img width="500"  src="./asset/project.jpg"></div>
 
 * **X/Y/Z** : 点云坐标系坐标.
 * **r11...t3** : 相机外参矩阵信息.
@@ -47,16 +47,16 @@ S(u,v) = M(internal) x M(external) x P
 
 在构建到工具的相机参数时，需要把`4x3`或`3x3`矩阵填补成`4x4`矩阵，如下：
 
-<div align=center><img width="300"  src="./asset/3-3.jpg"></div>
+<div align=center><img width="500"  src="./asset/3-3.jpg"></div>
 <div align=center>内参转换</div>
 </br>
-<div align=center><img width="300"  src="./asset/4-3.jpg"></div>
+<div align=center><img width="500"  src="./asset/4-3.jpg"></div>
 <div align=center>外参转换</div>
 
 ### 转换例子(Kitti)
 
 Example data of Kitti
-<div align=center><img width="400"  src="./asset/kitti.jpg"></div>
+<div align=center><img width="600"  src="./asset/kitti.jpg"></div>
 
 A 3D point x in Velodyne LiDAR coordinates gets projected to a point y in the i’th camera image as:
 
@@ -72,20 +72,19 @@ Code with `Three.js`
 ```javascript
 // Example: Calculate external matrix of camera 1
 
-// camera 0 rotate matrix
-// 7.215377e+02 0.000000e+00 6.095593e+02 0.000000e+00
-// 0.000000e+00 7.215377e+02 1.728540e+02 0.000000e+00
-// 0.000000e+00 0.000000e+00 1.000000e+00 0.000000e+00
-let R_rect_matrix_0 = createMatrixFrom3x3(config.R_rect);
-
 // camera 0 projection matrix as internal matrix
-// 7.215377e+02 0.000000e+00 6.095593e+02 -3.875744e+02
+// 7.215377e+02 0.000000e+00 6.095593e+02 0.000000e+00
 // 0.000000e+00 7.215377e+02 1.728540e+02 0.000000e+00
 // 0.000000e+00 0.000000e+00 1.000000e+00 0.000000e+00
 let P_rect_matrix_0 = createMatrixFrom4x3(config.cameras[0].P_rect);
 
 // camera 1 projection matrix
+// 7.215377e+02 0.000000e+00 6.095593e+02 -3.875744e+02
+// 0.000000e+00 7.215377e+02 1.728540e+02 0.000000e+00
+// 0.000000e+00 0.000000e+00 1.000000e+00 0.000000e+00
 let P_rect_matrix_1 = createMatrixFrom4x3(config.cameras[1].P_rect);
+// camera 0 rotate matrix
+let R_rect_matrix_0 = createMatrixFrom3x3(config.R_rect);
 // velodyne-camera transform
 let RT_velo_to_cam_matrix = createMatrixFrom4x3(config.RT_velo_to_cam);
 
@@ -127,9 +126,9 @@ function createMatrixFrom4x3(a: Array<number>): THREE.Matrix4 {
 Example data of PandaSet
 
 <div align=center>intrinsics.json</div>
-<div align=center><img width="400"  src="./asset/pandaset-inner.jpg"></div>
+<div align=center><img width="600"  src="./asset/pandaset-inner.jpg"></div>
 <div align=center>poses.json</div>
-<div align=center><img width="400"  src="./asset/pandaset-extern.jpg"></div>
+<div align=center><img width="600"  src="./asset/pandaset-extern.jpg"></div>
 
 Code with `Three.js`
 ```javascript
